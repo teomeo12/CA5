@@ -1,4 +1,4 @@
-package org.example;
+package BusinessObjects;
 
 import static org.junit.Assert.assertTrue;
 
