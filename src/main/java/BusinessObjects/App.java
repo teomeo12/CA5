@@ -463,9 +463,8 @@ public class App {
         PriorityQueue<Singer> twoFieldPriorityQueue = new PriorityQueue<>(new ComparatorNameAge());
 
         System.out.println("\nDisplay singerList arraylist");
-        for(Singer s :singerList){
-            System.out.println(s);
-        }
+
+        displayAllSingers(singerList);
 
         System.out.println("\nAdd elements to priority queue");
         for (Singer s : singerList) {
@@ -473,13 +472,9 @@ public class App {
         }
 
         System.out.println("\nDisplay twoFieldPriority queue");
-        for(Singer s :twoFieldPriorityQueue){
-            System.out.println(s);
-        }
 
-        while (!twoFieldPriorityQueue.isEmpty()) {
-            System.out.println(twoFieldPriorityQueue.remove());
-        }
+        displayPriorityQueue(twoFieldPriorityQueue);
+
     }
 
 

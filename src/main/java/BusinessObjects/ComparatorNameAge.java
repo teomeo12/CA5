@@ -16,13 +16,13 @@ public class ComparatorNameAge implements Comparator<Singer> {
     @Override
     public int compare(Singer s1, Singer s2)
     {
-        boolean brandSame =
+        boolean nameSame =
                 s1.getName().equalsIgnoreCase(s2.getName());
 
 
-        if(brandSame)
+        if(nameSame)
         {
-            //so, compare based on stocklevel
+            //so, compare based on name
             return  (s1.getDob().compareTo(s2.getDob()));
         }
         else
