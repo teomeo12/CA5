@@ -98,15 +98,12 @@ public class App {
                         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                         System.out.println("~ ##   PriorityQueue Sequence Simulation   ##~");
                         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+
                         displayPriorityQueueSubMenu();
-                        ArrayList<Singer> singersList3 = new ArrayList<>();
-                        instantiateSingers(singersList3);
-                        priorityQueue(singersList3);
-                        // ArrayList<Singer> singersList2 = new ArrayList<>();
-                        //  ArrayList<Venue> venueList = new ArrayList<>();
-                        // instantiateSingers(singersList2);
-                        // instantiateVenues(venueList);
-                        // treeMap(singersList2,venueList);
+//                        ArrayList<Singer> singersList3 = new ArrayList<>();
+//                        instantiateSingers(singersList3);
+//                        priorityQueue(singersList3);
+
 
                         break;
                     case PRIORITYQUEUETWOFIELD:
@@ -139,25 +136,28 @@ public class App {
     // Sub-Menu
     //
     private void displayPriorityQueueSubMenu() {
-        final String MENU_ITEMS = "*-----------------------------*\n"
-                + "*   *** PASSENGER MENU ***    *\n"
-                + "*-----------------------------*\n"
-                + "*  1. Add two third-priority elements     *\n"
-                + "*  2. Add two second-priority level items  *\n"
-                + "*  3. Remove and display one element       *\n"
-                + "*  4. Add one top-priority element          *\n"
-                + "*  5. Remove and display all elements in priority order        *\n"
-                + "*  6. Exit                    *\n"
-                + "*-----------------------------*\n"
-                + "*     Enter Option [1,6]      *\n"
-                + "*-----------------------------*";
+        final String MENU_ITEMS =
+                "*----------------------------------------------------------*\n"
+                + "*               *** Priority Queue MENU ***              *\n"
+                + "*--------------------------------------------------------*\n"
+                + "*  1. Display priority queue elements                    *\n"
+                + "*  2. Add two third-priority elements                    *\n"
+                + "*  3. Add two second-priority level items                *\n"
+                + "*  4. Remove and display one element                     *\n"
+                + "*  5. Add one top-priority element                       *\n"
+                + "*  6. Remove and display all elements in priority order  *\n"
+                + "*  7. Exit                    *\n"
+                + "*---------------------------------------------------------*\n"
+                + "*                    Enter Option [1,7]                   *\n"
+                + "*---------------------------------------------------------*";
 
-        final int ADD_TWO_THIRD_ELEMENTS = 1;
-        final int ADD_TWO_SECOND_PRIORITY_ITEMS = 2;
-        final int REMOVE_AND_DISPLAY_ONE_ELEMENT = 3;
-        final int ADD_ONE_TOP_ELEMENT = 4;
-        final int REMOVE_ALL_ELEMENTS = 5;
-        final int EXIT = 6;
+        final int DISPLAY_ALL_ELEMETS_IN_QUEUE = 1;
+        final int ADD_TWO_THIRD_ELEMENTS = 2;
+        final int ADD_TWO_SECOND_PRIORITY_ITEMS = 3;
+        final int REMOVE_AND_DISPLAY_ONE_ELEMENT = 4;
+        final int ADD_ONE_TOP_ELEMENT = 5;
+        final int REMOVE_ALL_ELEMENTS = 6;
+        final int EXIT = 7;
 
         Scanner keyboard = new Scanner(System.in);
         int option = 0;
@@ -167,14 +167,26 @@ public class App {
                 String usersInput = keyboard.nextLine();
                 option = Integer.parseInt(usersInput);
                 switch (option) {
+                    case DISPLAY_ALL_ELEMETS_IN_QUEUE:
+
+                        System.out.println("*---------------------------------------*");
+                        System.out.println("*    Display priority queue elements    *");
+                        System.out.println("*---------------------------------------*");
+
+                        ArrayList<Singer> singersList = new ArrayList<>();
+                        instantiateSingers(singersList);
+                        priorityQueue(singersList);
+                        displayPriorityQueue(priorityQueue(singersList));
+
+                        break;
                     case ADD_TWO_THIRD_ELEMENTS:
 
                         System.out.println("*-----------------------------*");
                         System.out.println("*    Add two third priority items         *");
                         System.out.println("*-----------------------------*");
-                        ArrayList<Singer> singersList = new ArrayList<>();
-                        instantiateSingers(singersList);
-                        priorityQueue(singersList);
+                        ArrayList<Singer> singersList1 = new ArrayList<>();
+                        instantiateSingers(singersList1);
+                        priorityQueue(singersList1);
                         // addTwoThirdElements(priorityQueue(singersList));
 
                         break;
@@ -183,10 +195,10 @@ public class App {
                         System.out.println("*    Add two second priority items   *");
                         System.out.println("*------------------------------------*");
                         System.out.println("\nEnter passenger name: ");
-                        ArrayList<Singer> singersList1 = new ArrayList<>();
-                        instantiateSingers(singersList1);
-                        priorityQueue(singersList1);
-                        addTwoSecondElements(priorityQueue(singersList1));
+                        ArrayList<Singer> singersList2 = new ArrayList<>();
+                        instantiateSingers(singersList2);
+                        priorityQueue(singersList2);
+                        addTwoSecondElements(priorityQueue(singersList2));
 
                         boolean isNum = false;
 //                        while (isNum != true) {
@@ -208,14 +220,15 @@ public class App {
                         System.out.println("*      Remove and display one element      *");
                         System.out.println("*------------------------------------------*");
 
-                        ArrayList<Singer> singersList2 = new ArrayList<>();
-                        instantiateSingers(singersList2);
+                        ArrayList<Singer> singersList3 = new ArrayList<>();
+                        instantiateSingers(singersList3);
                         //  priorityQueue(singersList2);
-                        displayPriorityQueue(priorityQueue(singersList2));
+                        System.out.println("Before remove the element");
+                        displayPriorityQueue(priorityQueue(singersList3));
 
                         System.out.println("Please choose the ID of the singer you want to delete: ");
                         int id = keyboard.nextInt();
-                        removeDisplayOneElement(priorityQueue(singersList2), singersList2, id);
+                        removeDisplayOneElement(priorityQueue(singersList3), singersList3, id);
                         //  displayPriorityQueue(removeDisplayOneElement(priorityQueue(singersList2),singersList2,id)) ;
                         keyboard.nextLine();
                         break;
@@ -224,54 +237,24 @@ public class App {
                         System.out.println("*--------------------------------------*");
                         System.out.println("*     Add one top-priority element     *");
                         System.out.println("*--------------------------------------*");
-                        //Display all passengers
 
-
-                        System.out.println("\nEnter passenger ID to edit: ");
-                        boolean isNum1 = false;
-                        while (isNum1 != true) {
-                            try {
-                                int passID = keyboard.nextInt();
-                                isNum1 = true;
-
-                                break;
-                            } catch (InputMismatchException e) {
-                                keyboard.nextLine();
-                                System.out.println("Please enter a number for ID!!!");
-                            }
-                        }
-                        break;
-
-
-                    case REMOVE_ALL_ELEMENTS:
-                        System.out.println("*-----------------------------*");
-                        System.out.println("*    Delete all elements       *");
-                        System.out.println("*-----------------------------*");
                         ArrayList<Singer> singersList4 = new ArrayList<>();
                         instantiateSingers(singersList4);
 
-                        removeAllElements(priorityQueue(singersList4));
+                         addOneTopPriorityElement(priorityQueue(singersList4));
 
+                        break;
+                    case REMOVE_ALL_ELEMENTS:
+                        System.out.println("*-------------------------------------------------*");
+                        System.out.println("*    Remove all elements in ascending order       *");
+                        System.out.println("*-------------------------------------------------*");
+                        ArrayList<Singer> singersList5 = new ArrayList<>();
+                        instantiateSingers(singersList5);
 
-                        System.out.println("\nEnter passenger ID to delete: ");
-                        boolean isID = false;
-                        while (isID != true) {
-                            try {
-                                int passIDdel = keyboard.nextInt();
-                                isID = true;
-                                //Delete passenger by ID - passing ID
-                                //   passengerStore.deletePassenger(passIDdel);
-
-                                // break;
-                            } catch (InputMismatchException e) {
-                                keyboard.nextLine();
-                                System.out.println("Please enter a number for ID!!!");
-                            }
-                        }
+                        removeAllElements(priorityQueue(singersList5));
 
                         break;
                     case EXIT:
-
 
                         System.out.println("Exit Menu option chosen");
                         break;
@@ -410,27 +393,6 @@ public class App {
         System.out.println("=============================================");
 
     }
-
-    public static PriorityQueue<Singer> priorityQueue(ArrayList<Singer> singersList) {
-        System.out.println("SingerList");
-        for (Singer s : singersList) {
-            System.out.println(s);
-        }
-
-        PriorityQueue<Singer> queue = new PriorityQueue<>(new ComparatorSingerRate(SortType.Ascending));
-        for (Singer s : singersList) {
-            queue.add(s);
-        }
-
-        System.out.println("PriorityQueue");
-        for (Singer s : queue) {
-            System.out.println(s);
-        }
-
-
-        return queue;
-    }
-
     public void displayPriorityQueue(PriorityQueue<Singer> queue) {
         System.out.println("\n-------------------------------------------------------------------");
         System.out.printf("%-5s %-20s %-20s %-10s %-20s", "Id", "Name", "Date of Birth", "Rate", "Genre");
@@ -440,6 +402,25 @@ public class App {
         }
         System.out.println("\n-------------------------------------------------------------------");
 
+    }
+    public  PriorityQueue<Singer> priorityQueue(ArrayList<Singer> singersList) {
+//        System.out.println("SingerList");
+//        for (Singer s : singersList) {
+//            System.out.println(s);
+//        }
+
+        PriorityQueue<Singer> queue = new PriorityQueue<>(new ComparatorSingerRate(SortType.Ascending));
+
+        for (Singer s : singersList) {
+            queue.add(s);
+        }
+       // displayPriorityQueue(queue);
+//        System.out.println("PriorityQueue");
+//        for (Singer s : queue) {
+//            System.out.println(s);
+//        }
+
+        return queue;
     }
 
     public void addTwoThirdElements(PriorityQueue<Singer> queue) {
@@ -455,15 +436,20 @@ public class App {
 
         System.out.println("\nRemove one element form the queue");
         System.out.println("Remove singer with ID: " + id + " from the queue");
-//        for (Singer s:singersList ) {
-//            System.out.println(s);
-//        }
-        System.out.println(singersList.remove(id));
-        // System.out.println(queue.remove(singersList(id)));
-        // System.out.println(queue.remove().singersList.getId());
+
+        queue.remove(singersList.get(id-1));
+        System.out.println("Priority queue after deletion");
+        displayPriorityQueue(queue);
         return queue;
     }
 
+    public void addOneTopPriorityElement(PriorityQueue<Singer> queue){
+        queue.offer(new Singer(11, "Panican whyasker", LocalDate.parse("1984-08-03"), 1500, "rock"));
+        System.out.println("\nThe new element is added to the PriorityQueue!!!");
+
+        displayPriorityQueue(queue);
+
+    }
     public void removeAllElements(PriorityQueue<Singer> queue) {
         System.out.println("=============================================");
 
