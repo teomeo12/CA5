@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MySqlUserDao extends MySqlDao implements UserDaoInterface
+public class MySqlSingerDao extends MySqlDao implements SingerDaoInterface
 {
 
     @Override
@@ -42,7 +42,7 @@ public class MySqlUserDao extends MySqlDao implements UserDaoInterface
             //Get connection object using the methods in the super class (MySqlDao.java)...
             connection = this.getConnection();
 
-            String query = "SELECT * FROM USER";
+            String query = "SELECT * FROM SINGER";
             ps = connection.prepareStatement(query);
 
             //Using a PreparedStatement to execute SQL...
@@ -84,7 +84,62 @@ public class MySqlUserDao extends MySqlDao implements UserDaoInterface
         return singerList;     // may be empty
     }
 
+//    @Override
+//    public Singer findSingerById() throws DaoException {
+//        Connection connection = null;
+//        PreparedStatement ps = null;
+//        ResultSet resultSet = null;
+//       // Singer returnedSinger = new Singer();
 //
+//
+//        try
+//        {
+//            //Get connection object using the methods in the super class (MySqlDao.java)...
+//            connection = this.getConnection();
+//
+//            String query = "SELECT * FROM SINGER";
+//            ps = connection.prepareStatement(query);
+//
+//            //Using a PreparedStatement to execute SQL...
+//            resultSet = ps.executeQuery();
+//            while (resultSet.next())
+//            {
+//                int userId = resultSet.getInt("SINGER_ID");
+//                String name = resultSet.getString("NAME");
+//                LocalDate dob = resultSet.getDate("DOB").toLocalDate();
+//                double rate = resultSet.getDouble("RATE");
+//                String genre = resultSet.getString("GENRE");
+//                Singer s = new Singer(userId, name, dob, rate, genre);
+//              //  returnedSinger=s;
+//            }
+//        } catch (SQLException e)
+//        {
+//            throw new DaoException("findAllSingerResultSet() " + e.getMessage());
+//        } finally
+//        {
+//            try
+//            {
+//                if (resultSet != null)
+//                {
+//                    resultSet.close();
+//                }
+//                if (ps != null)
+//                {
+//                    ps.close();
+//                }
+//                if (connection != null)
+//                {
+//                    freeConnection(connection);
+//                }
+//            } catch (SQLException e)
+//            {
+//                throw new DaoException("findAllSingers() " + e.getMessage());
+//            }
+//        }
+//        return;     // may be empty
+//   }
+
+
 
     @Override
     public Singer addSinger(Singer singer) throws DaoException

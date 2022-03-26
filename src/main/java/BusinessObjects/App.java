@@ -1,5 +1,9 @@
 package BusinessObjects;
 
+import DAOs.MySqlSingerDao;
+import DAOs.SingerDaoInterface;
+import Exceptions.DaoException;
+
 import java.io.IOException;
 import java.time.LocalTime;
 import java.util.*;
@@ -11,9 +15,11 @@ import java.util.PriorityQueue;
  * Hello world!
  */
 public class App {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, DaoException {
         App app = new App();
         app.start();
+
+
 
     }
     public void start() throws IOException {
@@ -36,9 +42,10 @@ public class App {
                         + "*  3. Tree Map Retrieve                         *\n"
                         + "*  4. PriorityQueue Sequence Simulation         *\n"
                         + "*  5. PriorityQueue Two-Field Comparison Demo   *\n"
-                        + "*  6. Exit                                      *\n"
+                        + "*  6. Find all Singers from database           *\n"
+                        + "*  7. Exit                                      *\n"
                         + "*-----------------------------------------------*\n"
-                        + "*              Enter Option [1,6]               *\n"
+                        + "*              Enter Option [1,7]               *\n"
                         + "*-----------------------------------------------*";
 
 
@@ -47,7 +54,8 @@ public class App {
         final int TREEMAPRETRIEVE = 3;
         final int PRIORITYQUEUE = 4;
         final int PRIORITYQUEUETWOFIELD = 5;
-        final int EXIT = 6;
+        final int FIND_ALL_SINGERS_DATABASE = 6;
+        final int EXIT = 7;
 
         Scanner keyboard = new Scanner(System.in);
         int option = 0;
@@ -113,6 +121,24 @@ public class App {
                         twoFieldPriorityQueue(singersList4);
 
                         break;
+                    // Feature-5
+                    case FIND_ALL_SINGERS_DATABASE:
+                        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                        System.out.println("~ ##  Find all Singers from database   ##~");
+                        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+
+                        SingerDaoInterface IUserDao = new MySqlSingerDao();
+
+                        System.out.println("\nCall findAllSingers()");
+                        List<Singer> singers = IUserDao.findAllSingers();
+                        if( singers.isEmpty() )
+                            System.out.println("There are no Singers");
+                        else {
+                            for (Singer singer : singers)
+                                System.out.println("Singer: " + singer.toString());
+                        }
+
+                        break;
                     case EXIT:
                         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                         System.out.println("~ ##  Exit Menu option chosen  ##~");
@@ -125,6 +151,8 @@ public class App {
 
             } catch (InputMismatchException | NumberFormatException e) {
                 System.out.print("Invalid option - please enter number in range");
+            } catch (DaoException e) {
+                e.printStackTrace();
             }
         } while (option != EXIT);
 

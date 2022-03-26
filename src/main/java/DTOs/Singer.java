@@ -41,13 +41,6 @@ public class Singer implements Comparable<BusinessObjects.Singer>{
         this.genre = genre;
     }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        BusinessObjects.Singer singer = (BusinessObjects.Singer) o;
-//        return id == singer.id && Double.compare(singer.rate, rate) == 0 && name.equals(singer.name) && dob.equals(singer.dob) && genre.equals(singer.genre);
-//    }
 
     @Override
     public String toString() {
