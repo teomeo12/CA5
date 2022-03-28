@@ -27,7 +27,7 @@ import java.util.List;
 public interface SingerDaoInterface
 {
     public List<Singer> findAllSingers() throws DaoException;
-  //  public Singer findSingerById() throws DaoException;
+   public Singer findSingerById(int id) throws DaoException;
 //    public List<Singer> findAllUsersLastNameContains(String subString) throws DaoException;
 //
 //    public Singer findUserByUsernamePassword(String username, String password) throws DaoException;

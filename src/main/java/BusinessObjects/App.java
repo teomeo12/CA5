@@ -43,9 +43,10 @@ public class App {
                         + "*  4. PriorityQueue Sequence Simulation         *\n"
                         + "*  5. PriorityQueue Two-Field Comparison Demo   *\n"
                         + "*  6. Find all Singers from database           *\n"
-                        + "*  7. Exit                                      *\n"
+                        + "*  7. Find all Singers from database           *\n"
+                        + "*  8. Exit                                      *\n"
                         + "*-----------------------------------------------*\n"
-                        + "*              Enter Option [1,7]               *\n"
+                        + "*              Enter Option [1,8]               *\n"
                         + "*-----------------------------------------------*";
 
 
@@ -55,7 +56,8 @@ public class App {
         final int PRIORITYQUEUE = 4;
         final int PRIORITYQUEUETWOFIELD = 5;
         final int FIND_ALL_SINGERS_DATABASE = 6;
-        final int EXIT = 7;
+        final int FIND_SINGERS_BY_ID_DATABASE = 7;
+        final int EXIT = 8;
 
         Scanner keyboard = new Scanner(System.in);
         int option = 0;
@@ -121,7 +123,7 @@ public class App {
                         twoFieldPriorityQueue(singersList4);
 
                         break;
-                    // Feature-5
+                    // Feature-7
                     case FIND_ALL_SINGERS_DATABASE:
                         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                         System.out.println("~ ##  Find all Singers from database   ##~");
@@ -139,6 +141,48 @@ public class App {
                         }
 
                         break;
+                    // Feature-8
+                    case FIND_SINGERS_BY_ID_DATABASE:
+                        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                        System.out.println("~ ##  Find all Singers by ID from database   ##~");
+                        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+
+                        SingerDaoInterface IUserDao1 = new MySqlSingerDao();
+
+                        ArrayList<Singer> singersList5 = new ArrayList<>();
+
+                        instantiateSingers(singersList5);
+                        displayAllSingers(singersList5);
+
+
+                        System.out.println("\nCall findSingerById()");
+                        boolean isNum1 = false;
+                        while (isNum1 != true) {
+                            try {
+                                System.out.println("Please choose singer id ");
+                                int id = keyboard.nextInt();
+                                isNum1 = true;
+
+                                Singer singersbyID = IUserDao1.findSingerById(id);
+
+                                if( singersbyID !=null )
+                                    System.out.println("There are no Singers with id "+id);
+                                else {
+
+                                    System.out.println("Singer: " + singersbyID.toString());
+                                }
+
+
+                                break;
+                            } catch (InputMismatchException e) {
+                                keyboard.nextInt();
+                                System.out.println("Please enter a number for ID!!!");
+                            }
+                        }
+
+
+                        break;
+
                     case EXIT:
                         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                         System.out.println("~ ##  Exit Menu option chosen  ##~");

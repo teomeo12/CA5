@@ -84,61 +84,63 @@ public class MySqlSingerDao extends MySqlDao implements SingerDaoInterface
         return singerList;     // may be empty
     }
 
-//    @Override
-//    public Singer findSingerById() throws DaoException {
-//        Connection connection = null;
-//        PreparedStatement ps = null;
-//        ResultSet resultSet = null;
-//       // Singer returnedSinger = new Singer();
-//
-//
-//        try
-//        {
-//            //Get connection object using the methods in the super class (MySqlDao.java)...
-//            connection = this.getConnection();
-//
-//            String query = "SELECT * FROM SINGER";
-//            ps = connection.prepareStatement(query);
-//
-//            //Using a PreparedStatement to execute SQL...
-//            resultSet = ps.executeQuery();
-//            while (resultSet.next())
-//            {
-//                int userId = resultSet.getInt("SINGER_ID");
-//                String name = resultSet.getString("NAME");
-//                LocalDate dob = resultSet.getDate("DOB").toLocalDate();
-//                double rate = resultSet.getDouble("RATE");
-//                String genre = resultSet.getString("GENRE");
-//                Singer s = new Singer(userId, name, dob, rate, genre);
-//              //  returnedSinger=s;
-//            }
-//        } catch (SQLException e)
-//        {
-//            throw new DaoException("findAllSingerResultSet() " + e.getMessage());
-//        } finally
-//        {
-//            try
-//            {
-//                if (resultSet != null)
-//                {
-//                    resultSet.close();
-//                }
-//                if (ps != null)
-//                {
-//                    ps.close();
-//                }
-//                if (connection != null)
-//                {
-//                    freeConnection(connection);
-//                }
-//            } catch (SQLException e)
-//            {
-//                throw new DaoException("findAllSingers() " + e.getMessage());
-//            }
-//        }
-//        return;     // may be empty
-//   }
+    @Override
+    public Singer findSingerById(int id) throws DaoException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+        int singerID =id;
+        Singer singer =null;
+       // Singer returnedSinger = new Singer();
 
+        try
+        {
+            //Get connection object using the methods in the super class (MySqlDao.java)...
+            connection = this.getConnection();
+
+            String query = "SELECT * FROM SINGER where SINGER_ID =?";
+           // SELECT * FROM `SINGER` WHERE SINGER_ID =2;
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, id);
+
+            //Using a PreparedStatement to execute SQL...
+            resultSet = ps.executeQuery();
+            while (resultSet.next())
+            {
+                int userId = resultSet.getInt("SINGER_ID");
+                String name = resultSet.getString("NAME");
+                LocalDate dob = resultSet.getDate("DOB").toLocalDate();
+                double rate = resultSet.getDouble("RATE");
+                String genre = resultSet.getString("GENRE");
+                singer  = new Singer(userId, name, dob, rate, genre);
+              //  returnedSinger=s;
+            }
+        } catch (SQLException e)
+        {
+            throw new DaoException("findAllSingerResultSet() " + e.getMessage());
+        } finally
+        {
+            try
+            {
+                if (resultSet != null)
+                {
+                    resultSet.close();
+                }
+                if (ps != null)
+                {
+                    ps.close();
+                }
+                if (connection != null)
+                {
+                    freeConnection(connection);
+                }
+            } catch (SQLException e)
+            {
+                throw new DaoException("findAllSingers() " + e.getMessage());
+            }
+        }
+        return singer;     // may be empty
+   }
 
 
     @Override
