@@ -19,13 +19,20 @@ public class Singer implements Comparable<Singer>{
         this.rate = rate;
         this.genre = genre;
     }
+    public Singer( String name, LocalDate dob, double rate, String genre) {
+
+        this.name = name;
+        this.dob = dob;
+        this.rate = rate;
+        this.genre = genre;
+    }
 
 
     public int getId() {        return id;    }
     public void setId(int id) {        this.id = id;    }
     public String getName() {        return name;    }
     public void setName(String name) {        this.name = name;    }
-    public LocalDate getDob() {        return dob;    }
+    public LocalDate getDob() {     return dob;    }
     public void setDob(LocalDate dob) {        this.dob = dob;    }
     public double getRate() {
         return rate;
@@ -82,4 +89,10 @@ public class Singer implements Comparable<Singer>{
         return (int) (this.getRate() - o.getRate());
     }
 
+    public String displayAllSingers() {
+
+        return String.format("%-5d %-20s %-20s %-10s %-20s", getId(), getName(), getDob(), getRate(), getGenre());
+
+
+    }
 }
