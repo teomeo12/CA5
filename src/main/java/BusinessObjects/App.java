@@ -4,6 +4,7 @@ import DAOs.MySqlSingerDao;
 import DAOs.SingerDaoInterface;
 import Exceptions.DaoException;
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.time.LocalTime;
 import java.util.*;
 import java.time.LocalDate;
@@ -168,9 +169,12 @@ public class App {
                         //call the singer list
                         singers = ISingerDao.findAllSingers();
 
-                        if( singers.isEmpty() )
-                            System.out.println("There are no Singers");
+                        if( singers.isEmpty() ){
+                            System.out.println("There are no Singers in the list");
+
+                        }
                         else {
+                            System.out.println("\nAll singers from the list");
                             System.out.println("\n-------------------------------------------------------------------");
                             System.out.printf("%-5s %-20s %-20s %-10s %-20s", "Id", "Name", "Date of Birth", "Rate", "Genre");
                             System.out.println("\n-------------------------------------------------------------------");
@@ -185,23 +189,26 @@ public class App {
                         boolean isID = false;
                         do  {
                             try {
-                                System.out.println("Please choose singer id ");
+                                System.out.println("Please choose singer id from the list: ");
 
                                 int id = sc.nextInt();
                                 isID = true;
                                 Singer singersbyID = ISingerDao.findSingerById(id);
 
-                                if( singersbyID == null )
+                                if( singersbyID == null ){
                                     System.out.println("There are no Singers with id "+id);
+                                    System.out.println("Press Enter to continue...");
+                                }
+
                                 else {
 
                                     System.out.println("\n-------------------------------------------------------------------");
                                     System.out.printf("%-5s %-20s %-20s %-10s %-20s", "Id", "Name", "Date of Birth", "Rate", "Genre");
                                     System.out.println("\n-------------------------------------------------------------------");
-                                    System.out.println("Singer: " + singersbyID.displayAllSingers());
+                                    System.out.println( singersbyID.displayAllSingers());
                                     System.out.println("\n-------------------------------------------------------------------");
                                     //sc.nextLine();
-                                    System.out.println("Press enter to continue...");
+                                    System.out.println("Press Enter to continue...");
                                 }
 
                             } catch (InputMismatchException e) {
@@ -221,8 +228,9 @@ public class App {
                         singers = ISingerDao.findAllSingers();
 
                         if( singers.isEmpty() )
-                            System.out.println("There are no Singers");
+                            System.out.println("There are no Singers in the list");
                         else {
+                            System.out.println("\nAll singers from the list");
                             System.out.println("\n-------------------------------------------------------------------");
                             System.out.printf("%-5s %-20s %-20s %-10s %-20s", "Id", "Name", "Date of Birth", "Rate", "Genre");
                             System.out.println("\n-------------------------------------------------------------------");
@@ -238,20 +246,62 @@ public class App {
                         boolean isID1 = false;
                         do  {
                             try {
-                                System.out.println("Please choose singer ID to be deleted ");
-
+                                System.out.println("Please choose singer ID to be deleted: ");
                                 int id = sc1.nextInt();
                                 isID1 = true;
-                                ISingerDao.deleteSingerById(id);
+
+                                Singer deleteSingerID =  ISingerDao.findSingerById(id);
+                                if(deleteSingerID ==null){
+                                    System.out.println("There are no Singers with id "+id);
+                                }else{
+                                    System.out.println("\nAre you sure you want to delete singer: ");
+                                    System.out.println("\n-------------------------------------------------------------------");
+                                    System.out.printf("%-5s %-20s %-20s %-10s %-20s", "Id", "Name", "Date of Birth", "Rate", "Genre");
+                                    System.out.println("\n-------------------------------------------------------------------");
+                                    System.out.println(deleteSingerID.displayAllSingers());
+                                    System.out.println("-------------------------------------------------------------------");
+                                    System.out.println("Please choose 1 for YES or 2 for NO");
+
+                                    final int YES = 1;
+                                    final int NO = 2;
+                                    int chose = 0;
+                                    boolean isNum = false;
+                                    do {
+
+                                        try {
+                                            String inputID = keyboard.nextLine();
+                                            chose = Integer.parseInt(inputID);
+                                            isNum = true;
+
+                                            switch (chose) {
+
+                                                case YES:
+                                                    ISingerDao.deleteSingerById(id);
+                                                    System.out.println("Singer deleted!!!");
+                                                    break;
+                                                case NO:
+                                                    System.out.println("Singer is NOT deleted!!!");
+
+                                                    break;
+                                                default:
+                                                    System.out.print("Invalid option - please enter number in range");
+                                                    break;
+                                            }
+                                            // keyboard.nextLine();
+                                        } catch (InputMismatchException | NumberFormatException e) {
+                                            // sc1.nextLine();
+                                            System.out.println("Please enter a number 1 for YES or 2 for NO!!!");
+                                        }
+                                    } while (isNum != true);
+                                }
 
 
                             } catch (InputMismatchException e) {
-                                sc1.nextLine();
+                               // sc1.nextLine();
                                 System.out.println("Please enter a number for ID!!!");
-
                             }
                         }while((isID1 != true));
-                        System.out.println("Press enter to continue...");
+                        System.out.println("Press Enter to continue...");
 
                         break;
                     case  INSERT_SINGERS_INTO_DATABASE:
@@ -274,21 +324,55 @@ public class App {
 
                         }
 
-                        System.out.println("\nEnter Singer ID: ");
-                        int singerID = Integer.parseInt(keyboard.nextLine()) ;
                         System.out.println("\nEnter Singer name: ");
                         String singerName = keyboard.nextLine();
-                        //if(singerID == singersList.g)
 
                         System.out.println("\nEnter Singer date of birth in format YYYY-MM-DD: ");
-                        System.out.println("Please Enter year");
-                        int year = Integer.parseInt(keyboard.nextLine()) ;
-                        System.out.println("Please Enter month");
-                        int month = Integer.parseInt(keyboard.nextLine()) ;
-                        System.out.println("Please Enter day");
-                        int day = Integer.parseInt(keyboard.nextLine()) ;
 
-                        LocalDate date = LocalDate.of(year,month,day);
+                        int year=0;
+                        boolean isInt = false;
+                        while (isInt != true) {
+                            try {
+                                System.out.println("Please Enter year");
+                                year = keyboard.nextInt();
+                                isInt = true;
+                                keyboard.nextLine();
+                            } catch (Exception e) {
+
+                                keyboard.nextLine();
+                                System.out.println("Please enter a number for Year!!!");
+                            }
+                        }
+                        int month=0;
+                        boolean isInt1 = false;
+                        while (isInt1 != true) {
+                            try {
+                                System.out.println("Please Enter month");
+                                month = keyboard.nextInt();
+                                isInt1 = true;
+                                keyboard.nextLine();
+                            } catch (Exception e) {
+
+                                keyboard.nextLine();
+                                System.out.println("Please enter a number for Month!!!");
+                            }
+                        }
+                        int day=0;
+                        boolean isInt2 = false;
+                        while (isInt2 != true) {
+                            try {
+                                System.out.println("Please Enter Day");
+                                day = keyboard.nextInt();
+                                isInt2 = true;
+                                keyboard.nextLine();
+                            } catch (Exception e) {
+
+                                keyboard.nextLine();
+                                System.out.println("Please enter a number for Day!!!");
+                            }
+                        }
+
+                         LocalDate date = LocalDate.of(year,month,day);
 
                         double rate=0;
                         boolean isDouble = false;
@@ -302,14 +386,13 @@ public class App {
 
                                 keyboard.nextLine();
                                 System.out.println("Please enter a number for Rate!!!");
-
                             }
                         }
 
                         System.out.println("\nEnter Singer genre: ");
                         String genre = keyboard.nextLine();
 
-                        Singer singer =ISingerDao.addSinger(singerID,singerName,date,rate,genre);
+                        Singer singer =ISingerDao.addSinger(singerName,date,rate,genre);
                         if(singer != null){
                             System.out.println("\n-------------------------------------------------------------------");
                             System.out.printf("%-5s %-20s %-20s %-10s %-20s", "Id", "Name", "Date of Birth", "Rate", "Genre");
@@ -355,7 +438,6 @@ public class App {
                             for (Singer singer1 : singers)
                                 System.out.println(singer1.displayAllSingers());
                             System.out.println("\n-------------------------------------------------------------------");
-
                         }
 
                         System.out.println("\n Filter Singers by date of birth");
@@ -370,53 +452,42 @@ public class App {
                             for (Singer singer1 : singers)
                                 System.out.println(singer1.displayAllSingers());
                             System.out.println("\n-------------------------------------------------------------------");
-                            System.out.println("Press enter to continue...");
+                            System.out.println("Press Enter to continue...");
                         }
 
 
                         break;
                     case RETRIEVE_SINGERS_AS_JSON:
-                        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                         System.out.println("~ ##  - Retrieve all Entities as JSON String    ##~");
-                        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
                         //call the singer list
                         String singersJSON = ISingerDao.findAllSingersJSON();
+                        System.out.println("Return JSON string of the Singer list");
                         System.out.println(singersJSON);
+                        System.out.println("Press Enter to continue...");
 
-//                        if( singers.isEmpty() )
-//                            System.out.println("There are no Singers");
-//                        else {
-//                            System.out.println("Original List");
-//                            System.out.println("\n-------------------------------------------------------------------");
-//                            System.out.printf("%-5s %-20s %-20s %-10s %-20s", "Id", "Name", "Date of Birth", "Rate", "Genre");
-//                            System.out.println("\n-------------------------------------------------------------------");
-//                            for (Singer singer1 : singers)
-//                                System.out.println(singer1.displayAllSingers());
-//                            System.out.println("\n-------------------------------------------------------------------");
-//
-//                        }
-//
-//                        System.out.println("\n Filter Singers by date of birth");
-//                        singers = ISingerDao.filterAllSingers();
-//                        if( singers.isEmpty() )
-//                            System.out.println("There are no Singers");
-//                        else {
-//                            System.out.println("\n-------------------------------------------------------------------");
-//                            System.out.printf("%-5s %-20s %-20s %-10s %-20s", "Id", "Name", "Date of Birth", "Rate", "Genre");
-//                            System.out.println("\n-------------------------------------------------------------------");
-//                            for (Singer singer1 : singers)
-//                                System.out.println(singer1.displayAllSingers());
-//                            System.out.println("\n-------------------------------------------------------------------");
-//                            System.out.println("Press enter to continue...");
-//                        }
                         break;
                     case FIND_SINGERS_BY_KEY_JSON:
-                        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                         System.out.println("~ ##  - Retrieve Singers as JSON String by ID    ##~");
-                        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-
+                        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                         //call the singer list
+                        singers = ISingerDao.findAllSingers();
+
+                        if( singers.isEmpty() )
+                            System.out.println("There are no Singers");
+                        else {
+                            System.out.println("Original List");
+                            System.out.println("\n-------------------------------------------------------------------");
+                            System.out.printf("%-5s %-20s %-20s %-10s %-20s", "Id", "Name", "Date of Birth", "Rate", "Genre");
+                            System.out.println("\n-------------------------------------------------------------------");
+                            for (Singer singer1 : singers)
+                                System.out.println(singer1.displayAllSingers());
+                            System.out.println("\n-------------------------------------------------------------------");
+
+                        }
 
                         Scanner sc2 =new Scanner(System.in);
                         boolean isID2 = false;
@@ -425,34 +496,33 @@ public class App {
                                 System.out.println("Please choose singer id ");
 
                                 int id = sc2.nextInt();
+
+                               // if(id)
+
                                 isID2 = true;
                                 String singersJSON1 = ISingerDao.findSingersByIDJSON(id);
-                                System.out.println(singersJSON1);
+                                if( singersJSON1 == null ){
+                                    System.out.println("There are no Singers with id ");
+                                   // System.out.println("Press Enter to continue...");
+                                    break;
+                                }
 
-
-//                                if( singersbyID == null )
-//                                    System.out.println("There are no Singers with id "+id);
-//                                else {
-//
-//                                    System.out.println("\n-------------------------------------------------------------------");
-//                                    System.out.printf("%-5s %-20s %-20s %-10s %-20s", "Id", "Name", "Date of Birth", "Rate", "Genre");
-//                                    System.out.println("\n-------------------------------------------------------------------");
-//                                    System.out.println("Singer: " + singersbyID.displayAllSingers());
-//                                    System.out.println("\n-------------------------------------------------------------------");
-//                                    //sc.nextLine();
-//                                    System.out.println("Press enter to continue...");
-//                                }
+                                else {
+                                    System.out.println("Return JSON String of the chosen singer");
+                                    System.out.println(singersJSON1);
+                                    //sc.nextLine();
+                                   // System.out.println("Press Enter to continue...");
+                                }
 
                             } catch (InputMismatchException e) {
                                 sc2.nextLine();
                                 System.out.println("Please enter a number for ID!!!");
-
                             }
                         }while((isID2 != true));
 
+                        System.out.println("Press Enter to continue...");
 
                         break;
-
                     case EXIT:
                         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                         System.out.println("~ ##  Exit Menu option chosen  ##~");

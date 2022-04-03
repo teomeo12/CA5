@@ -15,10 +15,8 @@ package DAOs;
  *
  */
 
-
 import BusinessObjects.LocalDateAdapter;
 import BusinessObjects.Singer;
-//import DTOs.Singer;
 import Exceptions.DaoException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -27,7 +25,6 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class MySqlSingerDao extends MySqlDao implements SingerDaoInterface
 {
@@ -145,7 +142,7 @@ public class MySqlSingerDao extends MySqlDao implements SingerDaoInterface
     public void deleteSingerById(int id) throws DaoException {
         Connection connection = null;
         PreparedStatement ps = null;
-        int singerID =id;
+      //  int singerID =id;
 
         try
         {
@@ -170,6 +167,7 @@ public class MySqlSingerDao extends MySqlDao implements SingerDaoInterface
                 if (ps != null)
                 {
                     ps.close();
+                    System.out.println();
                 }
                 if (connection != null)
                 {
@@ -180,17 +178,17 @@ public class MySqlSingerDao extends MySqlDao implements SingerDaoInterface
                 throw new DaoException("deleteSingerByID() " + e.getMessage());
             }
         }
-
+  //  return singer;
     }
 
     @Override
-    public Singer addSinger(int id,String name, LocalDate dob, double rate, String genre) throws DaoException
+    public Singer addSinger(String name, LocalDate dob, double rate, String genre) throws DaoException
     {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         Singer singer =null;
 
-       int SINGER_ID = id;
+       //int SINGER_ID = id;
         String NAME = name;
         LocalDate DOB = dob;
         double RATE = rate;
@@ -201,17 +199,17 @@ public class MySqlSingerDao extends MySqlDao implements SingerDaoInterface
             connection = this.getConnection();
 
             String query = "INSERT INTO SINGER\n" +
-                    "VALUES (?,?, ?, ?, ?);";
+                    "VALUES (null,?, ?, ?, ?);";
 
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, SINGER_ID);
-            preparedStatement.setString(2, NAME);
-            preparedStatement.setDate(3, Date.valueOf(DOB));
-            preparedStatement.setDouble(4, RATE);
-            preparedStatement.setString(5, GENRE);
+          //  preparedStatement.setInt(1, SINGER_ID);
+            preparedStatement.setString(1, NAME);
+            preparedStatement.setDate(2, Date.valueOf(DOB));
+            preparedStatement.setDouble(3, RATE);
+            preparedStatement.setString(4, GENRE);
 
            preparedStatement.executeUpdate();
-            singer = new Singer(SINGER_ID, NAME, DOB, RATE,GENRE);
+            singer = new Singer( NAME, DOB, RATE,GENRE);
 
         } catch (SQLException e)
         {
@@ -296,11 +294,7 @@ public class MySqlSingerDao extends MySqlDao implements SingerDaoInterface
     @Override
     public String findAllSingersJSON() throws DaoException
     {
-
-        List<Singer> singerList = new ArrayList<>();
-        singerList = findAllSingers();
-        //Gson gsonParser = new Gson();
-
+        List<Singer> singerList = findAllSingers();
         Gson gsonParser = new GsonBuilder()
                 .setPrettyPrinting()
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
@@ -314,17 +308,17 @@ public class MySqlSingerDao extends MySqlDao implements SingerDaoInterface
     @Override
     public String findSingersByIDJSON(int id) throws DaoException
     {
+        Singer singer = findSingerById(id);
+        Gson gsonParser = new GsonBuilder()
+                .setPrettyPrinting()
+                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                .create();
 
-        List<Singer> singerList = new ArrayList<>();
-        singerList = findAllSingers();
-        Gson gsonParser = new Gson();
+        String singerJsonStringBYID = gsonParser.toJson(singer);
+       // System.out.println(singer);
 
-        String singerJsonString = gsonParser.toJson(singerList);
-        System.out.println(singerJsonString);
-
-        return singerJsonString;     // may be empty
+        return singerJsonStringBYID;     // may be empty
     }
-
 
 }
 
