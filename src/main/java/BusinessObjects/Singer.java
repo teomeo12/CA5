@@ -1,12 +1,14 @@
 package BusinessObjects;
 
+import org.apache.commons.lang3.builder.CompareToBuilder;
+
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Objects;
 
 public class Singer implements Comparable<Singer>{
     private int id;
-     String name;
+    String name;
     private LocalDate dob;
     private  double rate;
     private String genre;
@@ -77,16 +79,18 @@ public class Singer implements Comparable<Singer>{
     @Override
     public int compareTo(Singer o)
     {
-        boolean name =
-                this.getName().equalsIgnoreCase(o.getName());
-
-        if(name) // Both first and last names are the same
-        {
-            //so, compare based on date of birth
-            return this.getDob().compareTo(o.getDob());
-        }
-
-        return (int) (this.getRate() - o.getRate());
+        CompareToBuilder builder =new CompareToBuilder();
+        return builder.append(this.getName(),o.getName()).append(this.getRate(),o.getRate()).toComparison();
+//        boolean name =
+//                this.getName().equalsIgnoreCase(o.getName());
+//
+//        if(name) // Both first and last names are the same
+//        {
+//            //so, compare based on date of birth
+//            return this.getDob().compareTo(o.getDob());
+//        }
+//
+//        return (int) (this.getRate() - o.getRate());
     }
 
     public String displayAllSingers() {

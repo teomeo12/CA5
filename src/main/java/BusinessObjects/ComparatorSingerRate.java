@@ -10,6 +10,10 @@ public class ComparatorSingerRate implements Comparator<Singer>{
     {
         this.sortType = sortType;
     }
+    public ComparatorSingerRate()
+    {
+        this.sortType = sortType;
+    }
 
     @Override
     public int compare( Singer s1, Singer s2)

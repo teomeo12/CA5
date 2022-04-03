@@ -4,11 +4,11 @@ import DAOs.MySqlSingerDao;
 import DAOs.SingerDaoInterface;
 import Exceptions.DaoException;
 import java.io.IOException;
-import java.sql.SQLOutput;
 import java.time.LocalTime;
 import java.util.*;
 import java.time.LocalDate;
 import java.util.PriorityQueue;
+import org.apache.commons.lang3.builder.CompareToBuilder;
 
 /**
  * Name: Teodor Donchev SD2a
@@ -100,6 +100,7 @@ public class App {
                         //Feature 1
 
                         displayAllSingers(singersList);
+
                         break;
                     // Feature-2
                     case HASHMAPRETRIEVE:
@@ -442,19 +443,10 @@ public class App {
 
                         System.out.println("\n Filter Singers by date of birth");
                          singers = ISingerDao.filterAllSingers();
-
-                        if( singers.isEmpty() )
-                            System.out.println("There are no Singers");
-                        else {
-                            System.out.println("\n-------------------------------------------------------------------");
-                            System.out.printf("%-5s %-20s %-20s %-10s %-20s", "Id", "Name", "Date of Birth", "Rate", "Genre");
-                            System.out.println("\n-------------------------------------------------------------------");
-                            for (Singer singer1 : singers)
-                                System.out.println(singer1.displayAllSingers());
-                            System.out.println("\n-------------------------------------------------------------------");
-                            System.out.println("Press Enter to continue...");
-                        }
-
+                        ComparatorDateOfBirth yearComparator = new ComparatorDateOfBirth();
+                        Collections.sort( singers, yearComparator );
+                        displayAllSingersFilter((ArrayList<Singer>) singers);
+                        System.out.println("Press Enter to continue...");
 
                         break;
                     case RETRIEVE_SINGERS_AS_JSON:
@@ -555,6 +547,9 @@ public class App {
         singersList.add(new Singer(8, "Last Hope", LocalDate.parse("1986-12-03"), 5000, "hard-core"));
         singersList.add(new Singer(9, "Odd Crew", LocalDate.parse("1993-12-03"), 6000, "metal"));
         singersList.add(new Singer(10, "PJ Harvey", LocalDate.parse("1974-12-03"), 7000, "pop-rock"));
+        singersList.add(new Singer(11, "Mark Lanegan", LocalDate.parse("1954-12-03"), 2100, "rock"));
+        singersList.add(new Singer(12, "Mark Lanegan", LocalDate.parse("1954-12-03"), 2300, "rock"));
+
     }
 
     public void instantiateVenues(ArrayList<Venue> venueList) {
@@ -583,18 +578,31 @@ public class App {
             System.out.printf("\n%-5d %-20s %-20s %-10s %-20s", singer.getId(), singer.getName(), singer.getDob(), singer.getRate(), singer.getGenre());
         }
         System.out.println("\n-------------------------------------------------------------------");
+        System.out.println("Press Enter to continue...");
+        return singersList;
+    }
+    public static ArrayList<Singer> displayAllSingersFilter(ArrayList<Singer> singersList) {
+        // ,"Date of Birth","Rate","Genre"
+        System.out.println("\n-------------------------------------------------------------------");
+        System.out.printf("%-5s %-20s %-20s %-10s %-20s", "Id", "Name", "Date of Birth", "Rate", "Genre");
+        System.out.println("\n-------------------------------------------------------------------");
+        for (Singer singer : singersList) {
+
+            System.out.printf("\n%-5d %-20s %-20s %-10s %-20s", singer.getId(), singer.getName(), singer.getDob(), singer.getRate(), singer.getGenre());
+        }
+        System.out.println("\n-------------------------------------------------------------------");
         return singersList;
     }
 
     public static Singer displayOneSingers(Singer singer) {
         // ,"Date of Birth","Rate","Genre"
-        System.out.println("\n-------------------------------------------------------------------");
-        System.out.printf("%-5s %-20s %-20s %-10s %-20s", "Id", "Name", "Date of Birth", "Rate", "Genre");
-        System.out.println("\n-------------------------------------------------------------------");
+        System.out.println("\n-----------------------------------------------------------------------");
+        System.out.printf("%s %-5s %-20s %-20s %-10s %-8s %s","|", "Id", "Name", "Date of Birth", "Rate", "Genre","|");
+        System.out.println("\n-----------------------------------------------------------------------");
 
-            System.out.printf("\n%-5d %-20s %-20s %-10s %-20s", singer.getId(), singer.getName(), singer.getDob(), singer.getRate(), singer.getGenre());
+        System.out.printf("%s %-5d %-20s %-20s %-10s %-8s %s\n","|", singer.getId(), singer.getName(), singer.getDob(), singer.getRate(), singer.getGenre(),"|");
 
-        System.out.println("\n-------------------------------------------------------------------");
+        System.out.println("-----------------------------------------------------------------------");
         return singer;
     }
     public static void hashmap(ArrayList<Singer> singersList)  // Hash Map (Singer => Book )
@@ -607,15 +615,23 @@ public class App {
         }
         Set<String> keySet = singerGenre.keySet();
         System.out.println("Choose Singer genre:");
+        System.out.println("-------------------");
+        System.out.println("|      Genres     |");
+        System.out.println("-------------------");
         for (String genre : keySet) {
-            System.out.print(genre + ", ");
+
+            System.out.printf("%-2s %-2s %-10s %-5s \n","|","•",genre," |" );
         }
+        System.out.println("-------------------");
+
+
         try {
             String key = sc.next();
             if (singerGenre.containsKey(key)) {
                 System.out.println("*****************************");
                 System.out.println("Singer who plays " + key );
                 displayOneSingers(singerGenre.get(key));
+                System.out.println("Press Enter to continue...");
             } else {
                 System.out.println("Singer who plays " + key + " does not exist.");
             }
@@ -671,24 +687,30 @@ public class App {
 
         System.out.println("\nTree Map: [ Singer -> Venue ]");
         // for each Entry in the set of all entries
-        System.out.println("=============================================");
+        System.out.println("\n---------------------------------------------------------------------------------");
+        System.out.printf("%s %-8s %-20s %-25s %-10s %s %s","|", "Singer", "Name", "Venue", "Location", "Start Time","|");
+        System.out.println("\n---------------------------------------------------------------------------------");
         for (Map.Entry<Singer, Venue> entry : singerVenue.entrySet()) {
             Singer singer = entry.getKey();
             Venue venue = entry.getValue();
-            System.out.println(singer.getId() + " Singer: " + singer.getName() + ", sings at:  " + "\"" + venue.getName() + "\"" + " in " + venue.getLocation() + " ,time: " + venue.getTime());
+            System.out.printf("%-3s%-8s %-20s %-25s %-10s %s %-3s %s\n","|", singer.getId() , singer.getName() , venue.getName(),venue.getLocation(),venue.getTime(),"pm","|");
+
+           // System.out.println(singer.getId()  + singer.getName() + ", sings at:  " + "\"" + venue.getName() + "\"" + " in " + venue.getLocation() + " ,time: " + venue.getTime());
         }
-        System.out.println("=============================================");
+        System.out.println("---------------------------------------------------------------------------------");
+
+        System.out.println("Press Enter to continue...");
 
     }
     public void displayPriorityQueue(PriorityQueue<Singer> queue) {
-        System.out.println("\n-------------------------------------------------------------------");
-        System.out.printf("%-5s %-20s %-20s %-10s %-20s", "Id", "Name", "Date of Birth", "Rate", "Genre");
-        System.out.println("\n-------------------------------------------------------------------");
+        System.out.println("\n-----------------------------------------------------------------------");
+        System.out.printf("%s %-5s %-20s %-20s %-10s %-8s %s","|", "Id", "Name", "Date of Birth", "Rate", "Genre","|");
+        System.out.println("\n-----------------------------------------------------------------------");
         for (Singer singer : queue) {
-            System.out.printf("\n%-5d %-20s %-20s %-10s %-20s", singer.getId(), singer.getName(), singer.getDob(), singer.getRate(), singer.getGenre());
+            System.out.printf("%s %-5d %-20s %-20s %-10s %-8s %s\n","|", singer.getId(), singer.getName(), singer.getDob(), singer.getRate(), singer.getGenre(),"|");
         }
-        System.out.println("\n-------------------------------------------------------------------");
-
+        System.out.println("-----------------------------------------------------------------------");
+        System.out.println("Press Enter to continue...");
     }
 
     public void priorityQueueSimulation( ArrayList<Singer> singersList){
@@ -729,9 +751,9 @@ public class App {
                 int id = keyboard.nextInt();
                 isNum1 = true;
                 System.out.println("You choose singer with id "+id);
-                displayOneSingers(singersList.get(id-1));
 
                 if(queue.contains(singersList.get(id-1))){
+                    displayOneSingers(singersList.get(id-1));
                     queue.remove(singersList.get(id-1));
 
                 }else{
@@ -740,18 +762,10 @@ public class App {
 
                 break;
             } catch (InputMismatchException e) {
-                keyboard.nextLine();
+               // keyboard.nextLine();
                 System.out.println("Please enter a number for ID!!!");
             }
         }
-//                while(!queue.contains(singersList.get(id))){
-//                    try{
-//                        displayOneSingers(singersList.get(id-1));
-//                    }
-//                    catch (InputMismatchException e){
-//                        System.out.println("There is no such a Singer in the queue ");
-//                    }
-//                }
 
         System.out.println("\n******************************");
         System.out.println("Priority queue after deletion");
@@ -780,13 +794,14 @@ public class App {
         System.out.println("************************************************\n");
         int remove=0;
 
+        System.out.println("------------------------------------------------------------------------------------------------");
         while (!queue.isEmpty()) {
             remove++;
             System.out.println("Remove "+ remove+" : "+ queue.remove());
         }
-        System.out.println("=============================================");
+        System.out.println("------------------------------------------------------------------------------------------------");
 
-
+        System.out.println("Press Enter to continue...");
 
     }
     public void displayQueue(PriorityQueue<Singer> queue)
@@ -804,7 +819,10 @@ public class App {
 
     }
     public void twoFieldPriorityQueue(ArrayList<Singer> singerList) {
-        PriorityQueue<Singer> twoFieldPriorityQueue = new PriorityQueue<>(new ComparatorNameAge());
+
+      //  PriorityQueue<Singer> twoFieldPriorityQueue = new PriorityQueue<>(new ComparatorNameRate(SortType.Ascending));
+       PriorityQueue<Singer> twoFieldPriorityQueue = new PriorityQueue<>(new ComparatorSingerName());
+       // PriorityQueue<Singer> twoFieldPriorityQueue = new PriorityQueue<>(new ComparatorDateOfBirth());
 
         System.out.println("\nDisplay singerList arraylist");
 
@@ -818,6 +836,7 @@ public class App {
         System.out.println("\nDisplay twoFieldPriority queue");
 
         displayPriorityQueue(twoFieldPriorityQueue);
+
 
     }
 
