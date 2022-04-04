@@ -8,7 +8,7 @@ import java.time.LocalTime;
 import java.util.*;
 import java.time.LocalDate;
 import java.util.PriorityQueue;
-import org.apache.commons.lang3.builder.CompareToBuilder;
+
 
 /**
  * Name: Teodor Donchev SD2a
@@ -423,7 +423,7 @@ public class App {
                         break;
                     case LIST_SINGER_USING_FILTER:
                         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-                        System.out.println("~ ##  Filter Singers from database    ##~");
+                        System.out.println("~ ##     Filter Singers from database      ##~");
                         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
                         //call the singer list
@@ -820,22 +820,35 @@ public class App {
     }
     public void twoFieldPriorityQueue(ArrayList<Singer> singerList) {
 
-      //  PriorityQueue<Singer> twoFieldPriorityQueue = new PriorityQueue<>(new ComparatorNameRate(SortType.Ascending));
-       PriorityQueue<Singer> twoFieldPriorityQueue = new PriorityQueue<>(new ComparatorSingerName());
-       // PriorityQueue<Singer> twoFieldPriorityQueue = new PriorityQueue<>(new ComparatorDateOfBirth());
+       PriorityQueue<Singer> twoFieldPriorityQueue = new PriorityQueue<>(new ComparatorNameRate(SortType.Ascending));
+
 
         System.out.println("\nDisplay singerList arraylist");
 
         displayAllSingers(singerList);
 
-        System.out.println("\nAdd elements to priority queue");
+       // System.out.println("\nAdd elements to priority queue");
         for (Singer s : singerList) {
             twoFieldPriorityQueue.add(s);
         }
 
-        System.out.println("\nDisplay twoFieldPriority queue");
+//        System.out.println("\nDisplay twoFieldPriority queue");
+//
+//        displayPriorityQueue(twoFieldPriorityQueue);
+        // remove and display all elements in priority order
+        System.out.println("\n**********************************************");
+        System.out.println("Remove the element by rate order from the queue");
+        System.out.println("************************************************\n");
+        int remove=0;
 
-        displayPriorityQueue(twoFieldPriorityQueue);
+        System.out.println("------------------------------------------------------------------------------------------------");
+        while (!twoFieldPriorityQueue.isEmpty()) {
+            remove++;
+            System.out.println("Remove "+ remove+" : "+ twoFieldPriorityQueue.remove());
+        }
+        System.out.println("------------------------------------------------------------------------------------------------");
+
+        System.out.println("Press Enter to continue...");
 
 
     }
