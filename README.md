@@ -1,7 +1,7 @@
 # OOP CA4 Time Complexity of the different opeations
 
-Different operations of the program are executed by switch case options
- from the main menu inside App.java. The options are as follows:
+**Different operations of the program are executed by switch case options
+ from the main menu inside App.java. The options are as follows:**
 
 * **Option 1** - Display all Singers:
 Add Singer objects to the arrayList - O(N)
