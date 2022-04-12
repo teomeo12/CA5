@@ -16,6 +16,8 @@ public interface SingerDaoInterface
     public String findSingersByIDJSON(int id) throws DaoException;
     public String findSingersByIDJSONServer(int id) throws DaoException;
     public String findAllSingersJSONServer() throws DaoException;
-
+    public void addSinger(Singer singer) throws DaoException;
+    public Singer findSingersHighRate()throws DaoException;
+ public String findSingersHighestRateJSONServer() throws DaoException;
 }
 

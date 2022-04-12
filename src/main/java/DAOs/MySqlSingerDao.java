@@ -246,7 +246,71 @@ public class MySqlSingerDao extends MySqlDao implements SingerDaoInterface {
         }
         return singer;     // reference to User object, or null value
     }
+    @Override
+    public void addSinger(Singer singer) throws DaoException {
+        String query = "INSERT INTO SINGER (NAME, DOB, RATE, GENRE) VALUE (?, ?, ?, ?)";
 
+        try (
+                Connection connection = this.getConnection();
+                PreparedStatement ps = connection.prepareStatement(query);
+        ) {
+            ps.setString(1, singer.getName());
+            ps.setDate(2, Date.valueOf(singer.getDob()));
+            ps.setDouble(3, singer.getRate());
+            ps.setString(4, singer.getGenre());
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException("addSinger() " + e.getMessage());
+        }
+    }
+
+    @Override
+    public Singer findSingersHighRate()throws DaoException{
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+
+        Singer singer = null;
+
+
+        try {
+            //Get connection object using the methods in the super class (MySqlDao.java)...
+            connection = this.getConnection();
+            String query = "SELECT * FROM `SINGER` where rate =(SELECT MAX(RATE) FROM SINGER);";
+            ps = connection.prepareStatement(query);
+
+
+            //Using a PreparedStatement to execute SQL...
+            resultSet = ps.executeQuery();
+            if (resultSet.next()) {
+                int userId = resultSet.getInt("SINGER_ID");
+                String name = resultSet.getString("NAME");
+                LocalDate dob = resultSet.getDate("DOB").toLocalDate();
+                double rate = resultSet.getDouble("RATE");
+                String genre = resultSet.getString("GENRE");
+                singer = new Singer(userId, name, dob, rate, genre);
+
+            }
+        } catch (SQLException e) {
+            throw new DaoException("findSingerBy ID() " + e.getMessage());
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (connection != null) {
+                    freeConnection(connection);
+                }
+            } catch (SQLException e) {
+                throw new DaoException("findAllSingers() " + e.getMessage());
+            }
+        }
+        return singer;     // may be empty
+    }
 
     @Override
     public String findAllSingersJSON() throws DaoException {
@@ -301,6 +365,20 @@ public class MySqlSingerDao extends MySqlDao implements SingerDaoInterface {
 
         return singerJsonString;     // may be empty
     }
+
+    @Override
+    public String findSingersHighestRateJSONServer() throws DaoException {
+        Singer singer = findSingersHighRate();
+        Gson gsonParser = new GsonBuilder()
+                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                .create();
+
+        String singerHigestRate = gsonParser.toJson(singer);
+        // System.out.println(singer);
+
+        return singerHigestRate;     // may be empty
+    }
+
 
 }
 

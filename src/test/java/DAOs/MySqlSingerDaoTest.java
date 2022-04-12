@@ -66,7 +66,13 @@ public class MySqlSingerDaoTest extends TestCase{
     }
 
     @Test
-    void findSingersByIDJSONServer() {
+    void findSingersByIDJSONServer() throws DaoException {
+        System.out.println("Test for Feature 8 - FindSingerByID");
+
+        int id = 5;
+        Singer expectedSinger = new Singer (5, "Mattiel", LocalDate.parse("2000-12-04"), 14000, "pop");
+        MySqlSingerDao mySqlSingerDao = new MySqlSingerDao();
+        Assertions.assertEquals(expectedSinger, mySqlSingerDao.findSingerById(id));
     }
 
     @Test
