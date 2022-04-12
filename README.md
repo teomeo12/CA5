@@ -3,7 +3,7 @@
 Different operations of the program are executed by switch case options
  from the main menu inside App.java. The options are as follows:
 
-* Option 1 - Display all Singers:
+* __Option 1__ - Display all Singers:
 Add Singer objects to the arrayList - O(N)
 Display the arrayList of singers(or get a record from the arrayList) - O(N)
 
