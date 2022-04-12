@@ -1,4 +1,4 @@
-# CA4 Time Complexity of the different opeations
+# OOP CA4 Time Complexity of the different opeations
 
 Different operations of the program are executed by switch case options
  from the main menu inside App.java. The options are as follows:
