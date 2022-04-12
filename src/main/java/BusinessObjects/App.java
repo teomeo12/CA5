@@ -16,15 +16,12 @@ import java.util.PriorityQueue;
  */
 public class App {
     private static final String INPUT_MIS_MATCH = "Input is not a Number - Please enter number";
+
     public static void main(String[] args) throws IOException, DaoException {
         App app = new App();
         app.start();
-
-
-
     }
     public void start() throws IOException {
-
         try {
             displayMainMenu();        // User Interface - Menu
         } catch (IOException e) {
@@ -442,7 +439,7 @@ public class App {
                         }
 
                         System.out.println("\n Filter Singers by date of birth");
-                         singers = ISingerDao.filterAllSingers();
+                        singers = ISingerDao.filterAllSingers();
                         ComparatorDateOfBirth yearComparator = new ComparatorDateOfBirth();
                         Collections.sort( singers, yearComparator );
                         displayAllSingersFilter((ArrayList<Singer>) singers);
@@ -457,7 +454,7 @@ public class App {
                         //call the singer list
                         String singersJSON = ISingerDao.findAllSingersJSON();
                         System.out.println("Return JSON string of the Singer list");
-                        System.out.println(singersJSON);
+                        System.out.print(singersJSON);
                         System.out.println("Press Enter to continue...");
 
                         break;
@@ -488,8 +485,6 @@ public class App {
                                 System.out.println("Please choose singer id ");
 
                                 int id = sc2.nextInt();
-
-                               // if(id)
 
                                 isID2 = true;
                                 String singersJSON1 = ISingerDao.findSingersByIDJSON(id);
@@ -782,6 +777,7 @@ public class App {
         System.out.println("The new element added to the Priority Queue is ");
         displayOneSingers(singersList.get(1));
 
+
         System.out.println("\n******************************");
         System.out.println("Priority queue after insertion");
         System.out.println("********************************");
@@ -855,4 +851,30 @@ public class App {
 
 }
 
-
+//package DAOs;
+//
+//        import org.junit.jupiter.api.Assertions;
+//        import org.junit.jupiter.api.Test;
+//        import BusinessObjects.Singer;
+//        import Exceptions.DaoException;
+//        import junit.framework.TestCase;
+//        import static org.junit.jupiter.api.Assertions.*;
+//        import java.time.LocalDate;
+//        import java.util.ArrayList;
+//        import java.util.List;
+//
+//        import static org.junit.Assert.assertEquals;
+//public class MySqlSingerDaoTest extends TestCase{
+//
+//    @Test
+//    public void findSingerById() throws DaoException {
+//        System.out.println("Test for Feature 8 - FindSingerByID");
+//
+//        int id = 5;
+//        Singer expectedSinger = new Singer (5, "Mattiel", LocalDate.parse("2000-12-04"), 14000, "pop");
+//        // Singer expectedSinger = new Singer(5, "Nikita","Fedans",68.9,160,LocalDate.of(2001,5,12),2);
+//        MySqlSingerDao mySqlSingerDao = new MySqlSingerDao();
+//        Assertions.assertEquals(expectedSinger, mySqlSingerDao.findSingerById(id));
+//    }
+//
+//}

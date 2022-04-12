@@ -2,7 +2,6 @@ package BusinessObjects;
 
 import org.apache.commons.lang3.builder.CompareToBuilder;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -13,7 +12,9 @@ public class Singer implements Comparable<Singer>{
     private  double rate;
     private String genre;
 
+    public Singer(){
 
+}
     public Singer(int id, String name, LocalDate dob, double rate, String genre) {
         this.id = id;
         this.name = name;
@@ -99,4 +100,19 @@ public class Singer implements Comparable<Singer>{
 
 
     }
+    public static Singer[] displayAllSingerss(Singer[] singersList) {
+        // ,"Date of Birth","Rate","Genre"
+        System.out.println("\n-----------------------------------------------------------------------");
+        System.out.printf("%s %-5s %-20s %-20s %-10s %-8s %s","|", "Id", "Name", "Date of Birth", "Rate", "Genre","|");
+        System.out.println("\n-----------------------------------------------------------------------");
+        for (Singer singer : singersList) {
+
+            System.out.printf("%s %-5d %-20s %-20s %-10s %-8s %s\n","|", singer.getId(), singer.getName(), singer.getDob(), singer.getRate(), singer.getGenre(),"|");
+        }
+        System.out.println("-----------------------------------------------------------------------");
+        System.out.println("Press Enter to continue...");
+        return singersList;
+    }
+
+
 }
