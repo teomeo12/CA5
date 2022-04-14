@@ -1,4 +1,4 @@
-package BusinessObjects;
+package DTOs;
 
 import java.time.LocalTime;
 

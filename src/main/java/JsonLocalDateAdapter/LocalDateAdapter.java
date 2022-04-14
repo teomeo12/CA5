@@ -1,4 +1,4 @@
-package BusinessObjects;
+package JsonLocalDateAdapter;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

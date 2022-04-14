@@ -1,4 +1,6 @@
-package BusinessObjects;
+package Comparators;
+
+import DTOs.Singer;
 
 import java.util.Comparator;
 

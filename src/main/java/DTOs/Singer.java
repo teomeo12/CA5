@@ -1,4 +1,4 @@
-package BusinessObjects;
+package DTOs;
 
 import org.apache.commons.lang3.builder.CompareToBuilder;
 
@@ -96,20 +96,20 @@ public class Singer implements Comparable<Singer>{
 
     public String displayAllSingers() {
 
-        return String.format("%-5d %-20s %-20s %-10s %-20s", getId(), getName(), getDob(), getRate(), getGenre());
-
+        return String.format("%s %-5d %-20s %-20s %-10s %-12s %s","|", getId(), getName(), getDob(), getRate(), getGenre(),"|");
 
     }
+
     public static Singer[] displayAllSingers(Singer[] singersList) {
         // ,"Date of Birth","Rate","Genre"
-        System.out.println("\n-----------------------------------------------------------------------");
-        System.out.printf("%s %-5s %-20s %-20s %-10s %-8s %s","|", "Id", "Name", "Date of Birth", "Rate", "Genre","|");
-        System.out.println("\n-----------------------------------------------------------------------");
+        System.out.println("\n---------------------------------------------------------------------------");
+        System.out.printf("%s %-5s %-20s %-20s %-10s %-12s %s","|", "Id", "Name", "Date of Birth", "Rate", "Genre","|");
+        System.out.println("\n---------------------------------------------------------------------------");
         for (Singer singer : singersList) {
 
-            System.out.printf("%s %-5d %-20s %-20s %-10s %-8s %s\n","|", singer.getId(), singer.getName(), singer.getDob(), singer.getRate(), singer.getGenre(),"|");
+            System.out.printf("%s %-5d %-20s %-20s %-10s %-12s %s\n","|", singer.getId(), singer.getName(), singer.getDob(), singer.getRate(), singer.getGenre(),"|");
         }
-        System.out.println("-----------------------------------------------------------------------");
+        System.out.println("---------------------------------------------------------------------------");
         System.out.print("Press Enter to continue...");
         return singersList;
     }

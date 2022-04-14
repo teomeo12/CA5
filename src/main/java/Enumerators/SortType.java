@@ -1,4 +1,4 @@
-package BusinessObjects;
+package Enumerators;
 
 public enum SortType {
     Ascending(1, "Sort Ascending"),

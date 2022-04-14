@@ -15,8 +15,8 @@ package DAOs;
  * methods provided in the Data Access Layer - i.e. by callimng the DAO methods.
  */
 
-import BusinessObjects.LocalDateAdapter;
-import BusinessObjects.Singer;
+import JsonLocalDateAdapter.LocalDateAdapter;
+import DTOs.Singer;
 import Exceptions.DaoException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -270,17 +270,12 @@ public class MySqlSingerDao extends MySqlDao implements SingerDaoInterface {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet resultSet = null;
-
         Singer singer = null;
-
-
         try {
             //Get connection object using the methods in the super class (MySqlDao.java)...
             connection = this.getConnection();
             String query = "SELECT * FROM `SINGER` where rate =(SELECT MAX(RATE) FROM SINGER);";
             ps = connection.prepareStatement(query);
-
-
             //Using a PreparedStatement to execute SQL...
             resultSet = ps.executeQuery();
             if (resultSet.next()) {
@@ -290,7 +285,6 @@ public class MySqlSingerDao extends MySqlDao implements SingerDaoInterface {
                 double rate = resultSet.getDouble("RATE");
                 String genre = resultSet.getString("GENRE");
                 singer = new Singer(userId, name, dob, rate, genre);
-
             }
         } catch (SQLException e) {
             throw new DaoException("findSingerBy ID() " + e.getMessage());

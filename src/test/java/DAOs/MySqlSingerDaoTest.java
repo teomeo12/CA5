@@ -1,15 +1,12 @@
 package DAOs;
 
-import BusinessObjects.App;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import BusinessObjects.Singer;
+import DTOs.Singer;
 import Exceptions.DaoException;
 import junit.framework.TestCase;
-import static org.junit.jupiter.api.Assertions.*;
+
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 public class MySqlSingerDaoTest extends TestCase{

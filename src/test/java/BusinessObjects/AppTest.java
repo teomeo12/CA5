@@ -2,11 +2,11 @@ package BusinessObjects;
 
 import static org.junit.Assert.assertTrue;
 
+import DTOs.Singer;
 import org.junit.Test;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Unit test for simple App.
